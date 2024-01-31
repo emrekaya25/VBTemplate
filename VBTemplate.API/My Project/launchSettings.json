@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "VisualBTemplate": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:53557/swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53557;http://localhost:53558"
+    }
+  }
+}
