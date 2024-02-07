@@ -4,7 +4,11 @@ Imports Microsoft.AspNetCore.Identity
 Imports Microsoft.Extensions.DependencyInjection
 Imports Microsoft.Extensions.Hosting
 Imports Serilog
+Imports FluentValidation.AspNetCore
 Imports Serilog.Sinks.MSSqlServer
+Imports VBTemplate.Business
+Imports VBTemplate.DataAccess
+Imports Microsoft.AspNetCore.Authentication.JwtBearer
 
 
 Module Program
@@ -15,31 +19,43 @@ Module Program
         ' Add services to the container.
         builder.Services.AddControllers()
 
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         ' Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer()
         builder.Services.AddSwaggerGen()
+        builder.Services.AddHttpContextAccessor()
+        builder.Services.AddDbContext(Of TemplateContext)
+        builder.Services.AddScoped(Of IUnitOfWork, UnitOfWork)()
+        builder.Services.AddScoped(Of IProductService, ProductManager)()
+        builder.Services.AddScoped(Of IUserService, UserManager)()
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer()
 
-        Log.Logger = New LoggerConfiguration() _
-    .MinimumLevel.Debug() _
-    .WriteTo.File("logs/myLog-.txt", rollingInterval:=RollingInterval.Day) _
-    .WriteTo.Console()
-        '.WriteTo.MSSqlServer(connectionString:="Data Source=DESKTOP-R04PVQ3\SQLEXPRESS; Initial Catalog=AhlTeknolojiDB; Integrated Security=True; TrustServerCertificate=true;",
-        '                    tableName:="Logs",
-        '                    autoCreateSqlTable:=False,
-        '                    columnOptions:=New ColumnOptions() With {
-        '                        .Store = New ObjectModel.Collection(Of StandardColumn)(),
-        '                        .AdditionalColumns = New ObjectModel.Collection(Of SqlColumn) From {
-        '                            New SqlColumn("Id", System.Data.SqlDbType.Int, 50),
-        '                            New SqlColumn("Message", System.Data.SqlDbType.NVarChar, -1),
-        '                            New SqlColumn("TableName", System.Data.SqlDbType.NVarChar, 50),
-        '                            New SqlColumn("UserId", System.Data.SqlDbType.BigInt),
-        '                            New SqlColumn("UserMail", System.Data.SqlDbType.NVarChar, 50),
-        '                            New SqlColumn("OperationType", System.Data.SqlDbType.NVarChar, 50),
-        '                            New SqlColumn("Time", System.Data.SqlDbType.DateTime, 50)
-        '                        }
-        '                    }
-        ') _
-        '.CreateLogger()
+        builder.Services.AddFluentValidationAutoValidation()
+
+
+
+
+        '    Log.Logger = New LoggerConfiguration() _
+        '.MinimumLevel.Debug() _
+        '.WriteTo.File("logs/myLog-.txt", rollingInterval:=RollingInterval.Day) _
+        '.WriteTo.Console()
+        '    '.WriteTo.MSSqlServer(connectionString:="Data Source=DESKTOP-R04PVQ3\SQLEXPRESS; Initial Catalog=AhlTeknolojiDB; Integrated Security=True; TrustServerCertificate=true;",
+        '    '                    tableName:="Logs",
+        '    '                    autoCreateSqlTable:=False,
+        '    '                    columnOptions:=New ColumnOptions() With {
+        '    '                        .Store = New ObjectModel.Collection(Of StandardColumn)(),
+        '    '                        .AdditionalColumns = New ObjectModel.Collection(Of SqlColumn) From {
+        '    '                            New SqlColumn("Id", System.Data.SqlDbType.Int, 50),
+        '    '                            New SqlColumn("Message", System.Data.SqlDbType.NVarChar, -1),
+        '    '                            New SqlColumn("TableName", System.Data.SqlDbType.NVarChar, 50),
+        '    '                            New SqlColumn("UserId", System.Data.SqlDbType.BigInt),
+        '    '                            New SqlColumn("UserMail", System.Data.SqlDbType.NVarChar, 50),
+        '    '                            New SqlColumn("OperationType", System.Data.SqlDbType.NVarChar, 50),
+        '    '                            New SqlColumn("Time", System.Data.SqlDbType.DateTime, 50)
+        '    '                        }
+        '    '                    }
+        '    ') _
+        '    '.CreateLogger()
 
         Dim app = builder.Build()
 

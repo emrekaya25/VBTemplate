@@ -25,7 +25,6 @@ Public Class Repository(Of T As BaseEntity)
         _dbSet.Update(entity)
     End Sub
 
-
     Public Async Function GetAllAsync(Optional Filter As Expression(Of Func(Of T, Boolean)) = Nothing, Optional IncludeList() As String = Nothing) As Task(Of IEnumerable(Of T)) Implements IRepository(Of T).GetAllAsync
 
         Dim query As IQueryable(Of T) = _dbSet
@@ -54,4 +53,5 @@ Public Class Repository(Of T As BaseEntity)
         End If
         Return Await query.FirstOrDefaultAsync(Filter)
     End Function
+
 End Class

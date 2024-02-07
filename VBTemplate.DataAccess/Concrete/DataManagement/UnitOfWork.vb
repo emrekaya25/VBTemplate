@@ -11,12 +11,14 @@ Public Class UnitOfWork
         _contextAccessor = contextAccessor
         _context = context
 
-        'ProductRepository = New ProductRepository(_context)
+        ProductRepository = New ProductRepository(_context)
+        UserRepository = New UserRepository(_context)
 
 
     End Sub
 
-    'Public ReadOnly Property ProductRepository As IProductRepository Implements IUnitOfWork.ProductRepository
+    Public ReadOnly Property ProductRepository As IProductRepository Implements IUnitOfWork.ProductRepository
+    Public ReadOnly Property UserRepository As IUserRepository Implements IUnitOfWork.UserRepository
 
 
     Public Function SaveChangeAsync() As Task(Of Integer) Implements IUnitOfWork.SaveChangeAsync
@@ -35,9 +37,9 @@ Public Class UnitOfWork
                 'item.Entity.UpdatedUser = item.Entity.UpdatedUser
                 'item.Entity.UpdatedIPV4Address = _contextAccessor.HttpContext.Connection.RemoteIpAddress.ToString()
 
-            ElseIf item.State = EntityState.Deleted Then
-                item.Entity.isActive = False
-                item.State = EntityState.Modified
+                'ElseIf item.State = EntityState.Deleted Then
+                '    item.Entity.isActive = False
+                '    item.State = EntityState.Modified
 
             End If
 

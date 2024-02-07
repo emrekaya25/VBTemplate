@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VBTemplate.Core\VBTemplate.Core.vbproj" />
     <ProjectReference Include="..\VBTemplate.Entity\VBTemplate.Entity.vbproj" />
   </ItemGroup>
 

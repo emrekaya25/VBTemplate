@@ -12,6 +12,11 @@ Public Class Result(Of T)
         StatusCode = _statusCode
         ErrorInfo = _ErrorInfo
     End Sub
+    Public Sub New(_data As T, _mesaj As String, _statusCode As Integer)
+        Data = _data
+        Mesaj = _mesaj
+        StatusCode = _statusCode
+    End Sub
 
     Public Sub New(_mesaj As String, _statusCode As Integer, _ErrorInfo As ErrorInfo)
         Mesaj = _mesaj
@@ -22,6 +27,9 @@ Public Class Result(Of T)
     Public Sub New(_statusCode As Integer, _ErrorInfo As ErrorInfo)
         StatusCode = _statusCode
         ErrorInfo = _ErrorInfo
+    End Sub
+    Public Sub New()
+
     End Sub
 
     Public Shared Function [Error](Optional message As String = "Hata Oluştu", Optional statusCode As Integer = CInt(HttpStatusCode.InternalServerError)) As Result(Of T)

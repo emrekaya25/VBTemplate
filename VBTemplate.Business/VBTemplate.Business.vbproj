@@ -6,8 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Concrete\" />
-    <Folder Include="Validation\" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VBTemplate.Core\VBTemplate.Core.vbproj" />
+    <ProjectReference Include="..\VBTemplate.DataAccess\VBTemplate.DataAccess.vbproj" />
+    <ProjectReference Include="..\VBTemplate.Entity\VBTemplate.Entity.vbproj" />
   </ItemGroup>
 
 </Project>
